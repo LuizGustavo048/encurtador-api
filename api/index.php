@@ -1,6 +1,6 @@
 <?php
 
-require '../src/UrlShortener.php';
+require __DIR__ . '/../src/UrlShortener.php';
 $config = require '../src/config.php';
 
 header('Access-Control-Allow-Origin: *');
