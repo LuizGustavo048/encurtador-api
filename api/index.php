@@ -28,7 +28,7 @@ if ($method === 'POST') {
         $shortCode = $urlShortener->shortenUrl($input['url']);
         echo json_encode([
             'original_url' => $input['url'],
-            'short_url' => "http://encurt/{$shortCode}"
+            'short_url' => "https://encurtador-api.vercel.app/{$shortCode}"
         ]);
     } else {
         http_response_code(400);
