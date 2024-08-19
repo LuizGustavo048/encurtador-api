@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Instanciar o objeto UrlShortener
 try {
     $urlShortener = new UrlShortener($config);
 } catch (PDOException $e) {
@@ -29,7 +28,7 @@ if ($method === 'POST') {
         $shortCode = $urlShortener->shortenUrl($input['url']);
         echo json_encode([
             'original_url' => $input['url'],
-            'short_url' => "https://encurtador-api.vercel.app/{$shortCode}"  // Atualize o domínio conforme necessário
+            'short_url' => "https://encurt.vercel.app/{$shortCode}"
         ]);
     } else {
         http_response_code(400);
