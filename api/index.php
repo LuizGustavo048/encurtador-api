@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Instanciar o objeto UrlShortener
 try {
     $urlShortener = new UrlShortener($config);
 } catch (PDOException $e) {
@@ -28,19 +29,31 @@ if ($method === 'POST') {
         $shortCode = $urlShortener->shortenUrl($input['url']);
         echo json_encode([
             'original_url' => $input['url'],
-            'short_url' => "https://encurtador-api.vercel.app/{$shortCode}"
+            'short_url' => "https://encurtador-api.vercel.app/{$shortCode}"  // Atualize o domínio conforme necessário
         ]);
     } else {
         http_response_code(400);
         echo json_encode(['error' => 'URL é requerida']);
     }
-} elseif ($method === 'GET' && isset($_GET['code'])) {
-    $originalUrl = $urlShortener->getOriginalUrl($_GET['code']);
-    if ($originalUrl) {
-        echo json_encode(['original_url' => $originalUrl]);
+} elseif ($method === 'GET') {
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $shortCode = trim($_SERVER['REQUEST_URI'], '/');
+        if ($shortCode) {
+            $originalUrl = $urlShortener->getOriginalUrl($shortCode);
+            if ($originalUrl) {
+                header("Location: $originalUrl");
+                exit();
+            } else {
+                http_response_code(404);
+                echo json_encode(['error' => 'URL não encontrada']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Código curto não fornecido']);
+        }
     } else {
-        http_response_code(404);
-        echo json_encode(['error' => 'URL não encontrada']);
+        http_response_code(400);
+        echo json_encode(['error' => 'Código curto não fornecido']);
     }
 } else {
     http_response_code(405);
