@@ -10,6 +10,6 @@ return [
     'dbname' => 'defaultdb',
     'user' => 'avnadmin',
     'password' => 'AVNS_V4ryjRHkGH6rKzzsdN8',
-    'sslrootcert' => '/../api/ca.pem',
+    'sslrootcert' => __DIR__ .'/../api/ca.pem',
 ];
 ?>

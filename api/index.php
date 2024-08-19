@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/../src/UrlShortener.php';
-$config = require '../src/config.php';
+$config = require __DIR__ .'../src/config.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
